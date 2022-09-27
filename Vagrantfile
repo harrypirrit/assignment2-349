@@ -1,9 +1,25 @@
 # -*- mode: ruby -*-
 # vi: set ft=ruby :
 
+class Hash
+  def slice(*keep_keys)
+    h = {}
+    keep_keys.each { |key| h[key] = fetch(key) if has_key?(key) }
+    h
+  end unless Hash.method_defined?(:slice)
+  def except(*less_keys)
+    slice(*keys - less_keys)
+  end unless Hash.method_defined?(:except)
+end
+
 Vagrant.configure("2") do |config|
   config.vm.box = "dummy"
-  config.vm.provider :aws do |aws, override|
+  config.vm.provider :aws do |aws, override|    
+
+  aws.access_key_id = $AWS_ACCESS_KEY
+  aws.secret_access_key = $AWS_SECRET_ACCESS_KEY
+  aws.session_token = $AWS_SESSION_TOKEN
+
 
     aws.region = "us-east-1"
 
@@ -30,13 +46,14 @@ Vagrant.configure("2") do |config|
       # Currency Web Server
       config.vm.define "webserver" do |webserver|
         webserver.vm.hostname = "webserver-tz"
-        webserver.vm.network "forwarded_port", guest: 80, host: 8080, host_ip: "127.0.0.1"
-        webserver.vm.network "private_network", ip: "192.168.2.11"
-        webserver.vm.synced_folder ".", "/vagrant", owner: "vagrant", group: "vagrant", mount_options: ["dmode=775,fmode=777"]
+
         webserver.vm.provision "shell", inline: <<-SHELL
-           apt-get update
+                apt-get update
                 apt-get install -y apache2 php libapache2-mod-php php-mysql
                 cp /vagrant/test-website.conf /etc/apache2/sites-available/
+                chmod 777 /vagrant
+                chmod 777 /vagrant/www
+                chmod 777 /vagrant/www/index.php
                 a2ensite test-website    
                 a2dissite 000-default
                 service apache2 reload22
@@ -74,21 +91,19 @@ Vagrant.configure("2") do |config|
     # Admin Web Server
     config.vm.define "admin" do |admin|
     admin.vm.hostname = "admin"
-
-    admin.vm.network "forwarded_port", guest: 80, host: 8081, host_ip: "127.0.0.1"
-    admin.vm.network "private_network", ip: "192.168.2.13"
-
-    admin.vm.synced_folder ".", "/vagrant", owner: "vagrant", group: "vagrant", mount_options: ["dmode=775,fmode=777"] 
-            
     
     admin.vm.provision "shell", inline: <<-SHELL
                           apt-get update
                           apt-get install -y apache2 php libapache2-mod-php php-mysql
                           cp /vagrant/admin-website.conf /etc/apache2/sites-available/
+                          chmod 777 /vagrant
+                          chmod 777 /vagrant/www
+                          chmod 777 /vagrant/www/admin
+                          chmod 777 /vagrant/www/admin/index.php
                           a2ensite admin-website
                           a2dissite 000-default
                           service apache2 reload
                   SHELL
    end
-  
+  end
   end
