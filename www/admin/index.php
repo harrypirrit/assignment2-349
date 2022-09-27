@@ -2,10 +2,10 @@
 <?php
 
    // connect to DB
-    $database_host = '192.168.2.12';
-    $database_name = 'kounters';
-    $database_user = 'user';
-    $databse_password = 'root123';
+   $database_host = 'database-1.cpigdw4xyajc.us-east-1.rds.amazonaws.com';
+   $database_name = 'database-1';
+   $database_user = 'admin';
+   $databse_password = 'helloroot123';
 
     $pdo_dsn = "mysql:host=$database_host;dbname=$database_name";
 
