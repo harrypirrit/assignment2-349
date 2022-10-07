@@ -15,3 +15,8 @@ Our application is a simple currency converter to go from NZD to multiple differ
 In the User view - a user can select a currency they would like to convert from 1 NZD -> New currency. They can click convert and this will convert it and produce an output.
 
 In the Admin view - an admin can view live updates of the amount of times a currency has been converted. I.e, A 'currency count' for each.
+---
+
+Important Video Timestamps
+0:00 - we navigate from the Instance page to the User (EC2) Instance. Showing the working conversion.
+0:26 - we navigate from the Instance page to the Admin (EC2) Instance. This shows that the counter's have been updated, and the connection between them is successful.
