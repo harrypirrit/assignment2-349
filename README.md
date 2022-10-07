@@ -3,8 +3,9 @@
 Matt Dixon (5305245)
 Harry Pirrit (8715047)
 
-This application is a follow on from our assignment 1 application, however deployed in the cloud via AWS. 
-However, our application is a simple currency converter to go from NZD to multiple different currencies. It has two views - a User view, and an Admin view.
+This application is a follow on from our assignment 1 application however, deployed in the cloud via AWS.
+
+Our application is a simple currency converter to go from NZD to multiple different currencies. It has two views - a User view, and an Admin view.
 
 In the User view - a user can select a currency they would like to convert from 1 NZD -> New currency. They can click convert and this will convert it and produce an output.
 
